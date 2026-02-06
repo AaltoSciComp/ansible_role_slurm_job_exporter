@@ -1,0 +1,22 @@
+---
+
+- name: Install slurm_job_exporter_packages
+  ansible.builtin.dnf:
+    name: "{{ slurm_job_exporter_packages }}"
+    state: present
+
+- name: Ensure Systemd preWait for dcgm if that is used
+  ansible.builtin.lineinfile:
+    path: /usr/lib/systemd/system/slurm-job-exporter.service
+    regexp: '^ExecStartPre='
+    insertbefore: '^ExecStart='
+    line: "ExecStartPre=/usr/bin/bash -c 'for i in {1..30}; do /usr/bin/dcgmi discovery -l && exit 0 || sleep 1; done; exit 1'"
+  when: nvidia_install_dcgm | default(false)
+
+- name: Enable slurm-job-exporter.service
+  ansible.builtin.systemd_service:
+    name: slurm-job-exporter.service
+    enabled: true
+  when: gpumonitoring_enabled | default(false)
+
+

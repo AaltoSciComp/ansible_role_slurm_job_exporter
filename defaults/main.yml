@@ -1,0 +1,5 @@
+---
+
+slurm_job_exporter_packages:
+  - python3-prometheus_client.noarch
+  - slurm-job-exporter.noarch
