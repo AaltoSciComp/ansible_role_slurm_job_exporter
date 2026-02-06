@@ -1,5 +1,9 @@
 ---
 
+# default is not to use monitoring
+slurm_job_exporter_enabled: false
+
+# needed rpms. Make sure these are available via dnf e.g. local repository
 slurm_job_exporter_packages:
   - python3-prometheus_client.noarch
   - slurm-job-exporter.noarch

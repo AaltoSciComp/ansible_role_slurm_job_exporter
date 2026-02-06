@@ -2,5 +2,5 @@
 
 # only apply when we use dcgm and want monitoring
 - include_tasks: redhat.yml
-  when: ansible_os_family == "RedHat" and nvidia_install_dcgm | default(false) and gpumonitoring_enabled | default(false)
+  when: ansible_os_family == "RedHat" and slurm_job_exporter_enabled
 
